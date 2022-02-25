@@ -27,7 +27,6 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
-
     @GetMapping("/user/getRole/{username}")
     public ResponseEntity<List<AppUserRole>> getUserRole(@PathVariable String username){
         return ResponseEntity.ok().body(userService.getUser(username).getRoles().stream().toList());
@@ -35,7 +34,6 @@ public class UserController {
 
     @GetMapping("/user/{username}")
     public ResponseEntity<AppUser> getUsers(@PathVariable String username){
-        System.out.println(username);
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 

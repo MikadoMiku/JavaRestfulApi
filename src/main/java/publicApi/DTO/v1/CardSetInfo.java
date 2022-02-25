@@ -4,8 +4,6 @@ import lombok.Data;
 
 @Data
 public class CardSetInfo {
-    private Long id;
-
     private String set_name = "";
 
     private String set_code = "";

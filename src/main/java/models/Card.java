@@ -1,6 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import util.domain.UtilCardImageInfo;
@@ -9,14 +11,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name="Card")
 @Data
 @NoArgsConstructor
 @Table(name="cards", schema="MIKUCARDSCHEMA")
-@JsonIgnoreProperties(value={ "id" })
 public class Card {
 
     @Id
@@ -71,9 +73,9 @@ public class Card {
     @Column(name = "card_image_fileCode")
     private String fileCode = UUID.randomUUID().toString();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "Card_id")
-    private List<CardSetInfo> card_sets = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "card_id", referencedColumnName = "id")
+    private Collection<CardSetInfo> card_sets;
 
     @Transient
     private List<UtilCardImageInfo> card_images;

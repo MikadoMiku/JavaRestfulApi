@@ -15,7 +15,7 @@ public class HsqlDataSource {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.hsqldb.jdbcDriver");
         ds.setUrl(env.getProperty("url"));
-
+        ds.setSchema("MIKUCARDSCHEMA");
         return ds;
     }
 

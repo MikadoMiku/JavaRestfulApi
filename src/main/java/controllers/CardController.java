@@ -1,19 +1,27 @@
 package controllers;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import publicApi.DTO.v1.Card;
+import service.contracts.ICardService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/")
+@RequiredArgsConstructor
 public class CardController {
+
+    private final ICardService cardService;
+    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     @GetMapping("hello")
     public String hello(){
@@ -21,9 +29,16 @@ public class CardController {
     }
 
     @GetMapping("card/{id}")
-    public Card getCard(@PathVariable String id){
-        System.out.println(id);
-        return new Card();
+    public Card getCardById(@PathVariable Long id){
+        Card card;
+        try{
+            models.Card cardModel = cardService.getCardById(id);
+            String json = objectMapper.writeValueAsString(cardModel);
+            card = objectMapper.readValue(json, Card.class);
+        }catch(JsonProcessingException e){
+            throw new RuntimeException(e.getOriginalMessage());
+        }
+        return card;
     }
     
     @GetMapping("cards/{setName}")

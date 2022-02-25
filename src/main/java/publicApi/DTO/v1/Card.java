@@ -23,5 +23,5 @@ public class Card {
 
     private String fileCode = "";
 
-    private List<CardSetInfo> card_sets = new ArrayList<>(Arrays.stream((new CardSetInfo[]{new CardSetInfo()})).toList());
+    private List<CardSetInfo> card_sets;
 }
